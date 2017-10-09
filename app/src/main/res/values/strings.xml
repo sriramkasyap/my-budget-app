@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MyBudgetApp</string>
+    <string name="settings">Settings</string>
+    <string name="you_can">You can spend</string>
+    <string name="to_date">Tuesday, 3rd October</string>
+    <string name="nth_day">Day 3</string>
+    <string name="today">today</string>
+    <string name="monthly_budget">Total Monthly Budget</string>
+    <string name="budget_left">Budget Left for the Month</string>
+    <string name="default_amount">\u20B9 0/-</string>
+    <string name="recent_heading">Recent Transactions</string>
+    <string name="view_all_transactions">View All Transactions</string>
+    <string name="add_transaction">Add New Transaction</string>
+    <string name="refresh">Refresh</string>
+    <string name="all_transaction_error_message">Something went Wrong. Please Try again Later</string>
+</resources>

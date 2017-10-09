@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="org.sriramkasyap.mybudgetapp.MainActivity"
+    android:orientation="vertical"
+    android:scrollbars="vertical">
+
+    <LinearLayout
+        style="@style/rv_current_status"
+        android:id="@+id/ll_current_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/tv_current_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_current_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nth_day" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_current_date"
+                style="@style/tv_current_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_date" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkGrey"
+                android:text="@string/you_can"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:id="@+id/tv_you_can"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/tv_current_balance"
+                style="@style/tv_current_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_you_can"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="45sp"
+                android:padding="0dp"
+                android:textStyle="bold"
+                android:text="@string/default_amount"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkGrey"
+                android:text="@string/today"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:id="@+id/tv_today"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tv_current_balance"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:text="@string/monthly_budget"
+                    android:maxWidth="120dp"/>
+                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/darkGrey"
+                    android:text="@string/default_amount"
+                    android:textSize="22sp"
+                     android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:text="@string/budget_left"
+                    android:maxWidth="120dp"
+                    android:textAlignment="textEnd"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/darkGrey"
+                    android:text="@string/default_amount"
+                    android:textSize="22sp"
+                    android:layout_marginTop="5dp"
+                    android:textAlignment="textEnd"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGrey"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingRight="16dp"
+        android:layout_below="@+id/ll_current_status"
+        android:id="@+id/ll_recent_transactions">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkGrey"
+            android:textSize="14sp"
+            android:text="@string/recent_heading" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rv_recent_transactions"
+        android:layout_below="@+id/ll_recent_transactions">
+
+    </android.support.v7.widget.RecyclerView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tv_error_display"
+        android:layout_below="@+id/ll_recent_transactions"
+        android:text="@string/all_transaction_error_message"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white_transparent"
+        android:id="@+id/pb_loading_indicator"
+        android:visibility="invisible">
+
+        <ProgressBar
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+</RelativeLayout>
