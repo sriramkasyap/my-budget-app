@@ -1,8 +1,8 @@
 package org.sriramkasyap.mybudgetapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,12 +10,18 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.net.URL;
+import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiManager;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TransactionListActivity extends AppCompatActivity {
     RelativeLayout LoadingIndicatorProgressBar;
@@ -35,8 +41,10 @@ public class TransactionListActivity extends AppCompatActivity {
         RecentTransactionLayout.setLayoutManager(layoutManager);
         RecentTransactionLayout.setHasFixedSize(true);
         ErrorMessageTextView = (TextView) findViewById(R.id.tv_error_display);
-        RenderDetails();
+//        RenderDetails();
+        RenderDetailsNew();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,12 +83,50 @@ public class TransactionListActivity extends AppCompatActivity {
 
     private void RefreshHomeScreen() {
         Log.d("Intent", "Refresh");
-        RenderDetails();
+        RenderDetailsNew();
 
+    }
+
+    private void RenderDetailsNew() {
+        ApiManager.getApiInterface().getAllTransactions()
+                .enqueue(new Callback<ArrayList<TransactionItem>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<TransactionItem>> call, Response<ArrayList<TransactionItem>> response) {
+                        if(response.isSuccessful()) {
+                            ArrayList<TransactionItem> TransactionList = response.body();
+                            rtlAdaptor.setTransactionData(TransactionList);
+                        } else {
+                            showErrorMessage();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<TransactionItem>> call, Throwable t) {
+                        showErrorMessage();
+                    }
+                });
     }
 
     public void RenderDetails() {
         new GetAllTransactionTask(LoadingIndicatorProgressBar, rtlAdaptor, ErrorMessageTextView).execute();
     }
+
+    public void showErrorMessage() {
+        Toast.makeText(this, "Connecting to Internet Failed. Please Check your connection.", Toast.LENGTH_LONG).show();
+    }
+
+    private void showAlert(String title, String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+    }
+
 
 }

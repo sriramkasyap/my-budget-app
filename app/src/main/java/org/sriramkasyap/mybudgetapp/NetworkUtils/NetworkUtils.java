@@ -1,4 +1,4 @@
-package org.sriramkasyap.mybudgetapp;
+package org.sriramkasyap.mybudgetapp.NetworkUtils;
 
 import android.net.Uri;
 import android.util.Log;
@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.sriramkasyap.mybudgetapp.TransactionItem;
 
 import java.io.IOException;
 import java.io.InputStream;

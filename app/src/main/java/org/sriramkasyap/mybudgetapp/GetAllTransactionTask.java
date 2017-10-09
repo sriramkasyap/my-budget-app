@@ -1,12 +1,11 @@
 package org.sriramkasyap.mybudgetapp;
 
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import org.sriramkasyap.mybudgetapp.NetworkUtils.NetworkUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
