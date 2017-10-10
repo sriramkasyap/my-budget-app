@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiManager;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         /* Renders Details */
         RenderDetails();
+
     }
 
     @Override
@@ -73,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.show();
-        ApiManager.getApiInterface().addTransaction("Snacks", "PopiTonique", 100.0).enqueue(new Callback<TransactionItem>() {
+        String currentDateTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+//        Log.d("dateTime", currentDateTimeString);
+        ApiManager.getApiInterface().addTransaction("Snacks", "PopiTonique", 100.0, currentDateTimeString).enqueue(new Callback<TransactionItem>() {
             @Override
             public void onResponse(Call<TransactionItem> call, Response<TransactionItem> response) {
                 Log.d("AddTransaction", response.body().toString());
@@ -150,4 +156,5 @@ public class MainActivity extends AppCompatActivity {
     public void  showAddTransactionSuccess() {
         Toast.makeText(this, "Transaction Added Successfully", Toast.LENGTH_SHORT).show();
     }
+
 }
