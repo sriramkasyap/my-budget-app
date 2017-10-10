@@ -1,5 +1,6 @@
 package org.sriramkasyap.mybudgetapp;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -24,16 +25,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TransactionListActivity extends AppCompatActivity {
-    RelativeLayout LoadingIndicatorProgressBar;
-    RecentTransactionListAdapter rtlAdaptor;
+    public RecentTransactionListAdapter rtlAdaptor;
     public RecyclerView RecentTransactionLayout;
-    TextView ErrorMessageTextView;
+    public TextView ErrorMessageTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_list);
-        LoadingIndicatorProgressBar = (RelativeLayout) findViewById(R.id.pb_loading_indicator);
         rtlAdaptor = new RecentTransactionListAdapter();
         RecentTransactionLayout = (RecyclerView) findViewById(R.id.rv_recent_transactions);
         RecentTransactionLayout.setAdapter(rtlAdaptor);
@@ -41,10 +40,8 @@ public class TransactionListActivity extends AppCompatActivity {
         RecentTransactionLayout.setLayoutManager(layoutManager);
         RecentTransactionLayout.setHasFixedSize(true);
         ErrorMessageTextView = (TextView) findViewById(R.id.tv_error_display);
-//        RenderDetails();
-        RenderDetailsNew();
+        RenderDetails();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,15 +79,21 @@ public class TransactionListActivity extends AppCompatActivity {
     }
 
     private void RefreshHomeScreen() {
-        Log.d("Intent", "Refresh");
-        RenderDetailsNew();
-
+        RenderDetails();
     }
 
-    private void RenderDetailsNew() {
+    private void RenderDetails() {
+
+        final ProgressDialog mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.show();
         ApiManager.getApiInterface().getAllTransactions()
                 .enqueue(new Callback<ArrayList<TransactionItem>>() {
+
+
                     @Override
+
                     public void onResponse(Call<ArrayList<TransactionItem>> call, Response<ArrayList<TransactionItem>> response) {
                         if(response.isSuccessful()) {
                             ArrayList<TransactionItem> TransactionList = response.body();
@@ -98,35 +101,24 @@ public class TransactionListActivity extends AppCompatActivity {
                         } else {
                             showErrorMessage();
                         }
+                        if (mProgressDialog.isShowing())
+                            mProgressDialog.dismiss();
                     }
 
                     @Override
                     public void onFailure(Call<ArrayList<TransactionItem>> call, Throwable t) {
                         showErrorMessage();
+                        if (mProgressDialog.isShowing())
+                            mProgressDialog.dismiss();
                     }
                 });
-    }
-
-    public void RenderDetails() {
-        new GetAllTransactionTask(LoadingIndicatorProgressBar, rtlAdaptor, ErrorMessageTextView).execute();
     }
 
     public void showErrorMessage() {
         Toast.makeText(this, "Connecting to Internet Failed. Please Check your connection.", Toast.LENGTH_LONG).show();
     }
 
-    private void showAlert(String title, String message) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-    }
+
 
 
 }

@@ -1,6 +1,7 @@
 package org.sriramkasyap.mybudgetapp.NetworkUtils;
 
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -69,7 +72,7 @@ public class NetworkUtils {
             int i;
             for(i=0; i<jsonArray.length(); i++) {
                 JSONObject transJSON = jsonArray.getJSONObject(i);
-                TransactionItem transItem = new TransactionItem(transJSON);
+                TransactionItem transItem = new TransactionItem();
                 TransactionList.add(transItem);
             }
         } catch (JSONException e) {
@@ -77,5 +80,12 @@ public class NetworkUtils {
         }
 
         return TransactionList;
+    }
+
+    public static String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time);
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
     }
 }

@@ -2,16 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="org.sriramkasyap.mybudgetapp.MainActivity"
-    android:orientation="vertical"
-    android:scrollbars="vertical">
+    android:orientation="horizontal"
+    android:scrollbars="vertical"
+    android:weightSum="1">
 
-    <LinearLayout
+    <RelativeLayout
         style="@style/rv_current_status"
         android:id="@+id/ll_current_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -45,8 +47,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp">
+            android:layout_centerInParent="true">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +86,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -133,45 +136,53 @@
             </LinearLayout>
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/lightGrey"
-        android:paddingLeft="16dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:paddingRight="16dp"
-        android:layout_below="@+id/ll_current_status"
-        android:id="@+id/ll_recent_transactions">
+        android:orientation="vertical"
+        android:layout_weight="0.5">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/darkGrey"
-            android:textSize="14sp"
-            android:text="@string/recent_heading" />
+            android:background="@color/lightGrey"
+            android:paddingLeft="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="16dp"
+            android:layout_below="@+id/ll_current_status"
+            android:id="@+id/ll_recent_transactions">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkGrey"
+                android:textSize="14sp"
+                android:text="@string/recent_heading" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_recent_transactions"
+            android:layout_below="@+id/ll_recent_transactions">
+
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rv_recent_transactions"
-        android:layout_below="@+id/ll_recent_transactions">
-
-    </android.support.v7.widget.RecyclerView>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tv_error_display"
-        android:layout_below="@+id/ll_recent_transactions"
-        android:text="@string/all_transaction_error_message"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:padding="20dp"
-        android:visibility="invisible"/>
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/tv_error_display"-->
+        <!--android:layout_below="@+id/ll_recent_transactions"-->
+        <!--android:text="@string/all_transaction_error_message"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="20sp"-->
+        <!--android:padding="20dp"-->
+        <!--android:visibility="invisible"/>-->
 
 
 </LinearLayout>

@@ -16,6 +16,7 @@
 package org.sriramkasyap.mybudgetapp;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class RecentTransactionListAdapter extends RecyclerView.Adapter<RecentTra
 
     public void setTransactionData(ArrayList<TransactionItem> transactionData) {
         TransactionData = transactionData;
+        Log.d("TransactionData", transactionData.get(0).toString());
         notifyDataSetChanged();
     }
     public class RecentTransactionListViewHolder extends RecyclerView.ViewHolder {
@@ -74,7 +76,7 @@ public class RecentTransactionListAdapter extends RecyclerView.Adapter<RecentTra
         public void bind(int transactionIndex) {
             TransactionTitleTextView.setText(TransactionData.get(transactionIndex).getTransactionTitle());
             TransactionTimeTextView.setText(TransactionData.get(transactionIndex).getTransactionTimeCreated());
-            TransactionValueTextView.setText("\u20B9 " + TransactionData.get(transactionIndex).getTransactionValueString() + "/-");
+            TransactionValueTextView.setText("\u20B9 " + TransactionData.get(transactionIndex).getTransactionValue() + "/-");
         }
 
 

@@ -7,53 +7,78 @@ import org.json.JSONObject;
  * Created by Sriram Kasyap on 08-10-2017.
  */
 
-public class TransactionItem {
-    public int TransactionID;
-    public String TransactionTitle;
-    public String TransactionDescription;
-    public String TransactionTimeCreated;
-    public String TransactionTimeModified;
-    public double TransactionValue;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public TransactionItem(JSONObject transJSON) {
-        try {
-            this.TransactionID = transJSON.getInt("transaction_id");
-            this.TransactionTitle = transJSON.getString("transaction_title");
-            this.TransactionDescription = transJSON.getString("transaction_desc");
-            this.TransactionTimeCreated = transJSON.getString("transaction_time_created");
-            this.TransactionTimeModified= transJSON.getString("transaction_time_modified");
-            this.TransactionValue= transJSON.getDouble("transaction_value");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+public class TransactionItem {
+
+    @SerializedName("transaction_id")
+    @Expose
+    private String transactionId;
+    @SerializedName("transaction_title")
+    @Expose
+    private String transactionTitle;
+    @SerializedName("transaction_desc")
+    @Expose
+    private String transactionDesc;
+    @SerializedName("transaction_time_created")
+    @Expose
+    private String transactionTimeCreated;
+    @SerializedName("transaction_time_modified")
+    @Expose
+    private String transactionTimeModified;
+    @SerializedName("transaction_value")
+    @Expose
+    private String transactionValue;
+
+    public String getTransactionId() {
+        return transactionId;
     }
 
-    public int getTransactionID() {
-        return TransactionID;
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     public String getTransactionTitle() {
-        return TransactionTitle;
+        return transactionTitle;
     }
 
-    public String getTransactionDescription() {
-        return TransactionDescription;
+    public void setTransactionTitle(String transactionTitle) {
+        this.transactionTitle = transactionTitle;
+    }
+
+    public String getTransactionDesc() {
+        return transactionDesc;
+    }
+
+    public void setTransactionDesc(String transactionDesc) {
+        this.transactionDesc = transactionDesc;
     }
 
     public String getTransactionTimeCreated() {
-        return TransactionTimeCreated;
+        return transactionTimeCreated;
+    }
+
+    public void setTransactionTimeCreated(String transactionTimeCreated) {
+        this.transactionTimeCreated = transactionTimeCreated;
     }
 
     public String getTransactionTimeModified() {
-        return TransactionTimeModified;
+        return transactionTimeModified;
     }
 
-    public double getTransactionValue() {
-        return TransactionValue;
+    public void setTransactionTimeModified(String transactionTimeModified) {
+        this.transactionTimeModified = transactionTimeModified;
     }
 
-    public String getTransactionValueString() {
-        String TransValue = String.valueOf((int) getTransactionValue());
-        return TransValue;
+    public String getTransactionValue() {
+        return transactionValue;
     }
+
+    public void setTransactionValue(String transactionValue) {
+        this.transactionValue = transactionValue;
+    }
+
+
 }
+
