@@ -14,11 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiManager;
+import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiResponse;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,34 +80,41 @@ public class MainActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.show();
         String currentDateTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-//        Log.d("dateTime", currentDateTimeString);
-        ApiManager.getApiInterface().addTransaction("Snacks", "PopiTonique", 100.0, currentDateTimeString).enqueue(new Callback<TransactionItem>() {
-            @Override
-            public void onResponse(Call<TransactionItem> call, Response<TransactionItem> response) {
-                Log.d("AddTransaction", response.body().toString());
-                if(response.isSuccessful()) {
-                    showAddTransactionSuccess();
-                } else {
-                    showErrorMessage();
-                }
-                if(mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
-            }
+        ApiManager.getApiInterface().addTransaction("Snacks", "PopiTonique", 100.0, currentDateTimeString)
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        Log.d("AddTransaction", response.body().toString());
+                        if(response.isSuccessful()) {
+                            if(response.body().getStatus()) {
+                                showToast(response.body().getMessage());
+                            } else {
 
-            @Override
-            public void onFailure(Call<TransactionItem> call, Throwable t) {
-                if(mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
-                showErrorMessage();
-            }
-        });
+                            }
+                        } else {
+                            showToast(response.body().getMessage());
+                        }
+                        if(mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        if(mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
+                        showToast("Connecting to server Failed. Please Try again");
+                    }
+                });
 
     }
 
     private void GoToSettingsActivity() {
         Log.d("Intent", "Settings");
+        Intent SettingsIntent = new Intent(this, SettingsActivity.class);
+        startActivity(SettingsIntent);
+
     }
 
     private void GoToTransactionActivity() {
@@ -134,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                             ArrayList<TransactionItem> TransactionList = response.body();
                             rtlAdaptor.setTransactionData(TransactionList);
                         } else {
-                            showErrorMessage();
+                            showToast("Transactions Loaded Successfully");
                         }
                         if (mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
@@ -142,19 +151,15 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ArrayList<TransactionItem>> call, Throwable t) {
-                        showErrorMessage();
+                        showToast("Connecting to server failed. Please Try Again.");
                         if (mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
                     }
                 });
     }
 
-    public void showErrorMessage() {
-        Toast.makeText(this, "Connecting to Internet Failed. Please Check your connection.", Toast.LENGTH_LONG).show();
-    }
-
-    public void  showAddTransactionSuccess() {
-        Toast.makeText(this, "Transaction Added Successfully", Toast.LENGTH_SHORT).show();
+    public void  showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
 }
