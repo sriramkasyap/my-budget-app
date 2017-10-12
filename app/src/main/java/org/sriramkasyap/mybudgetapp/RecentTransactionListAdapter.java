@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.sriramkasyap.mybudgetapp.NetworkUtils.TransactionItem;
+
 import java.util.ArrayList;
 /*
 * This is the adapter for Recent Transactions section's RecyclerView on the home screen.

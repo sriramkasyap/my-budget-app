@@ -9,18 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiManager;
 import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiResponse;
+import org.sriramkasyap.mybudgetapp.NetworkUtils.TransactionItem;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;

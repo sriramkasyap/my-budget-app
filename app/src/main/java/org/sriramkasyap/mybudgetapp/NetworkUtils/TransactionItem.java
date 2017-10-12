@@ -1,4 +1,4 @@
-package org.sriramkasyap.mybudgetapp;
+package org.sriramkasyap.mybudgetapp.NetworkUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

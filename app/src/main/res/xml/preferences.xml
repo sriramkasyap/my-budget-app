@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <EditTextPreference
+        android:title="Monthly Budget (\u20B9)"
+        android:summary="Set Monthly Budget"
+        android:key="monthly_budget"
+        android:defaultValue="0"
+        android:inputType="numberDecimal"/>
+
+    <EditTextPreference
+        android:title="Expenditure (\u20B9)"
+        android:summary="Set Monthly Expenditure till date"
+        android:key="monthly_budget"
+        android:defaultValue="0"
+        android:inputType="numberDecimal"/>
 </PreferenceScreen>
