@@ -5,13 +5,22 @@
         android:title="Monthly Budget (\u20B9)"
         android:summary="Set Monthly Budget"
         android:key="monthly_budget"
-        android:defaultValue="0"
-        android:inputType="numberDecimal"/>
+        android:digits="0123456789."
+        android:inputType="number"/>
 
     <EditTextPreference
         android:title="Expenditure (\u20B9)"
         android:summary="Set Monthly Expenditure till date"
-        android:key="monthly_budget"
+        android:key="total_expenditure"
         android:defaultValue="0"
-        android:inputType="numberDecimal"/>
+        android:inputType="number"/>
+
+    <EditTextPreference
+        android:title="Planned Expenditure (\u20B9)"
+        android:summary="Set Planned Expenditure for future"
+        android:key="planned_expenditure"
+        android:defaultValue="0"
+        android:inputType="number"/>
+
+
 </PreferenceScreen>

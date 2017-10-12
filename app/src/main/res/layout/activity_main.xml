@@ -104,7 +104,8 @@
                     android:textColor="@color/darkGrey"
                     android:text="@string/default_amount"
                     android:textSize="22sp"
-                     android:layout_marginTop="5dp"/>
+                     android:layout_marginTop="5dp"
+                     android:id="@+id/tv_monthly_budget"/>
 
             </LinearLayout>
 

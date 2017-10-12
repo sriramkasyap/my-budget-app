@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public RecyclerView RecentTransactionLayout;
     public RecentTransactionListAdapter rtlAdaptor;
     public TextView ErrorMessageTextView;
-
+    public TextView MonthlyBudgetTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
         RecentTransactionLayout.setHasFixedSize(true);
 
         ErrorMessageTextView = (TextView) findViewById(R.id.tv_error_display);
-
+        MonthlyBudgetTextView = (TextView) findViewById(R.id.tv_monthly_budget);
+        BudgetUtils.Init(this);
         /* Renders Details */
         RenderDetails();
+
 
     }
 
@@ -154,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
                             mProgressDialog.dismiss();
                     }
                 });
+        MonthlyBudgetTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getMonthlyBudget()) + "/-");
+
     }
 
     public void  showToast(String message) {
