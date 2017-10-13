@@ -87,4 +87,7 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="MonthlyBudget">monthly_budget</string>
+    <string name="transaction_name">Transaction Name</string>
+    <string name="transaction_desc">Transaction Description</string>
+    <string name="transaction_value">Transaction Value (\u20B9)</string>
 </resources>

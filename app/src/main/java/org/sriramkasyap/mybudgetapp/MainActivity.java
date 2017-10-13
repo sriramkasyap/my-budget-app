@@ -77,41 +77,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void GoToAddTransactionActivity() {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Loading...");
-        mProgressDialog.show();
-        String currentDateTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        ApiManager.getApiInterface().addTransaction("Snacks", "PopiTonique", 100.0, currentDateTimeString)
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        if(response.isSuccessful()) {
-                            if(response.body().getStatus()) {
-                                showToast(response.body().getMessage());
-                                notifyDataChanged();
-
-                            } else {
-
-                            }
-                        } else {
-                            showToast(response.body().getMessage());
-                        }
-                        if(mProgressDialog.isShowing()) {
-                            mProgressDialog.dismiss();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        if(mProgressDialog.isShowing()) {
-                            mProgressDialog.dismiss();
-                        }
-                        showToast("Connecting to server Failed. Please Try again");
-                    }
-                });
-        RenderDetails();
-
+        Intent addTransactionIntent = new Intent(this, NewTransactionActivity.class);
+        startActivity(addTransactionIntent);
     }
 
     private void GoToSettingsActivity() {

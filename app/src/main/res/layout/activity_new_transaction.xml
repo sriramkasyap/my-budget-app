@@ -1,9 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.sriramkasyap.mybudgetapp.NewTransactionActivity">
+    android:orientation="vertical"
+    tools:context="org.sriramkasyap.mybudgetapp.NewTransactionActivity"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="20dp">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+         android:id="@+id/et_transaction_name"
+        android:hint="@string/transaction_name"
+        style="@style/add_new_transaction"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+         android:id="@+id/et_transaction_value"
+        android:hint="@string/transaction_value"
+        style="@style/add_new_transaction"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:id="@+id/et_transaction_desc"
+        android:hint="@string/transaction_desc"
+        style="@style/add_new_transaction"
+        android:inputType="textMultiLine"
+        android:minHeight="50dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorAccent"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/white_transparent"
+        android:text="@string/add_transaction"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        android:id="@+id/button_add_transaction"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
