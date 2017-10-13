@@ -60,7 +60,6 @@ public class RecentTransactionListAdapter extends RecyclerView.Adapter<RecentTra
 
     public void setTransactionData(ArrayList<TransactionItem> transactionData) {
         TransactionData = transactionData;
-        Log.d("TransactionData", transactionData.get(0).toString());
         notifyDataSetChanged();
     }
     public class RecentTransactionListViewHolder extends RecyclerView.ViewHolder {

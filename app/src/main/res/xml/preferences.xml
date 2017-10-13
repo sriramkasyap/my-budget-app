@@ -9,9 +9,9 @@
         android:inputType="number"/>
 
     <EditTextPreference
-        android:title="Expenditure (\u20B9)"
-        android:summary="Set Monthly Expenditure till date"
-        android:key="total_expenditure"
+        android:title="Previous Expenditure (\u20B9)"
+        android:summary="Set Previous Expenditure"
+        android:key="previous_expenditure"
         android:defaultValue="0"
         android:inputType="number"/>
 

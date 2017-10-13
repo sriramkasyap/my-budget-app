@@ -4,6 +4,15 @@ import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiManager;
+import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiResponse;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by Sriram Kasyap on 12-10-2017.
@@ -12,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 public class BudgetUtils {
     private static float MonthlyBudget = Float.valueOf(0);
     private static float TotalExpenditure = Float.valueOf(0);
+    private static float AddedExpenditure = Float.valueOf(0);
     private static float PlannedExpenditure = Float.valueOf(0);
     private static float BudgetLeftForMonth = Float.valueOf(0);
     private static float BudgetForToday = Float.valueOf(0);
@@ -25,8 +35,8 @@ public class BudgetUtils {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requestingActivity);
         setMonthlyBudget(Float.parseFloat(sharedPreferences.getString("monthly_budget", "0")));
         setPlannedExpenditure(Float.parseFloat(sharedPreferences.getString("planned_expenditure", "0")));
-        setTotalExpenditure(Float.parseFloat(sharedPreferences.getString("total_expenditure", "0")));
-
+        setTotalExpenditure(Float.parseFloat(sharedPreferences.getString("previous_expenditure", "0")));
+        setBudgetLeftForMonth(MonthlyBudget - TotalExpenditure);
 
     }
 
@@ -42,12 +52,16 @@ public class BudgetUtils {
         return TotalExpenditure;
     }
 
-    public static void setTotalExpenditure(float totalExpenditure) {
-        TotalExpenditure = totalExpenditure;
+    public static void setTotalExpenditure(float totalPreviousExpenditure) {
+        TotalExpenditure = totalPreviousExpenditure + AddedExpenditure;
     }
 
     public static float getPlannedExpenditure() {
         return PlannedExpenditure;
+    }
+
+    public static void setAddedExpenditure(float FromAddedExpenditure) {
+        AddedExpenditure = FromAddedExpenditure;
     }
 
     public static void setPlannedExpenditure(float plannedExpenditure) {

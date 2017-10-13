@@ -67,7 +67,8 @@ public class TransactionListActivity extends AppCompatActivity {
     }
 
     private void GoToSettingsActivity() {
-        Log.d("Intent", "Settings");
+        Intent settingIntent = new Intent(this, SettingsActivity.class);
+        startActivity(settingIntent);
     }
 
     private void GoToTransactionActivity() {

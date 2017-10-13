@@ -17,6 +17,9 @@ public interface ApiInterface {
     @GET("transactions")
     Call<ArrayList<TransactionItem>> getAllTransactions();
 
+    @GET("total-added-expenditure")
+    Call<ApiResponse> getTotalAddedExpenditure();
+
     @FormUrlEncoded
     @POST("add-transaction")
     Call<ApiResponse> addTransaction(@Field("transaction_title") String TransactionTitle, @Field("transaction_desc") String TransactionDesc, @Field("transaction_value") Double TransactionValue, @Field("transaction_time") String TransactionTime);

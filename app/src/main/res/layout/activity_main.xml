@@ -130,6 +130,7 @@
                     android:textSize="22sp"
                     android:layout_marginTop="5dp"
                     android:textAlignment="textEnd"
+                    android:id="@+id/tv_budget_left"
                     />
             </LinearLayout>
         </RelativeLayout>

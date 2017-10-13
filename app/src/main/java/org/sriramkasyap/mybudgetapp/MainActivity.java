@@ -2,6 +2,7 @@ package org.sriramkasyap.mybudgetapp;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,11 +26,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     public RecyclerView RecentTransactionLayout;
     public RecentTransactionListAdapter rtlAdaptor;
     public TextView ErrorMessageTextView;
     public TextView MonthlyBudgetTextView;
+    public TextView BudgetLeftTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         ErrorMessageTextView = (TextView) findViewById(R.id.tv_error_display);
         MonthlyBudgetTextView = (TextView) findViewById(R.id.tv_monthly_budget);
-        BudgetUtils.Init(this);
+        BudgetLeftTextView = (TextView) findViewById(R.id.tv_budget_left);
         /* Renders Details */
         RenderDetails();
 
@@ -84,10 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 .enqueue(new Callback<ApiResponse>() {
                     @Override
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        Log.d("AddTransaction", response.body().toString());
                         if(response.isSuccessful()) {
                             if(response.body().getStatus()) {
                                 showToast(response.body().getMessage());
+                                notifyDataChanged();
+
                             } else {
 
                             }
@@ -107,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
                         showToast("Connecting to server Failed. Please Try again");
                     }
                 });
+        RenderDetails();
 
     }
 
     private void GoToSettingsActivity() {
-        Log.d("Intent", "Settings");
         Intent SettingsIntent = new Intent(this, SettingsActivity.class);
         startActivity(SettingsIntent);
 
@@ -128,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void RenderDetails() {
+        BudgetUtils.Init(this);
 
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
@@ -141,12 +145,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<ArrayList<TransactionItem>> call, Response<ArrayList<TransactionItem>> response) {
                         if(response.isSuccessful()) {
                             ArrayList<TransactionItem> TransactionList = response.body();
-                            rtlAdaptor.setTransactionData(TransactionList);
+                            notifyDataChanged(TransactionList);
                         } else {
                             showToast("Transactions Loaded Successfully");
                         }
                         if (mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
+
                     }
 
                     @Override
@@ -156,12 +161,44 @@ public class MainActivity extends AppCompatActivity {
                             mProgressDialog.dismiss();
                     }
                 });
-        MonthlyBudgetTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getMonthlyBudget()) + "/-");
+        ApiManager.getApiInterface().getTotalAddedExpenditure()
+                .enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if(response.isSuccessful() && response.body().getStatus()) {
+                            BudgetUtils.setAddedExpenditure(Float.parseFloat(response.body().getMessage()));
+                            notifyDataChanged();
 
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+                    }
+                });
+
+
+
+    }
+
+    private void notifyDataChanged(ArrayList<TransactionItem> transactionList) {
+        rtlAdaptor.setTransactionData(transactionList);
+    }
+
+    private void notifyDataChanged() {
+        BudgetUtils.Init(this);
+        MonthlyBudgetTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getMonthlyBudget()) + "/-");
+        BudgetLeftTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getBudgetLeftForMonth()) + "/-");
     }
 
     public void  showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+
+        RenderDetails();
+    }
 }
