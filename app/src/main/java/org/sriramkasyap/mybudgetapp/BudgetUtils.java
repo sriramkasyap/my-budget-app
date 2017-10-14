@@ -78,8 +78,14 @@ public class BudgetUtils {
         return PlannedExpenditure;
     }
 
-    public static void setAddedExpenditure(float FromAddedExpenditure) {
-        AddedExpenditure = FromAddedExpenditure;
+    public static void setAddedExpenditure(ArrayList<TransactionItem> transactionItems) {
+        int pos = 0;
+        int sum = 0;
+        while (pos < transactionItems.size()) {
+            sum += transactionItems.get(pos).getTransactionValue();
+            pos++;
+        }
+        AddedExpenditure = sum;
     }
 
     public static void setPlannedExpenditure(float plannedExpenditure) {
@@ -164,7 +170,6 @@ public class BudgetUtils {
     }
 
     public static void setExpenditures(ArrayList<TransactionItem> expenditures) {
-//        BudgetUtils.expenditures = expenditures;
         setTodayExpenditure(expenditures);
         setAddedExpenditure(expenditures);
     }

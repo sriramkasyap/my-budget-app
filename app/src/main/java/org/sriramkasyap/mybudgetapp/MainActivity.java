@@ -132,43 +132,19 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                             mProgressDialog.dismiss();
                     }
                 });
-        ApiManager.getApiInterface().getTotalAddedExpenditure()
-                .enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        if(response.isSuccessful() && response.body().getStatus()) {
-                            String responseMessage  = response.body().getMessage();
-                            if(responseMessage != null) {
-                                BudgetUtils.setAddedExpenditure(Float.parseFloat(responseMessage));
-                                notifyDataChanged();
-                            }
-                            else {
-                                BudgetUtils.setAddedExpenditure(0);
-                                notifyDataChanged();
-                                showToast("No New transactions Found");
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        showToast("No New transactions Found");
-                    }
-                });
-
-
-
     }
 
     private void notifyDataChanged(ArrayList<TransactionItem> transactionList) {
         rtlAdaptor.setTransactionData(transactionList);
+        notifyDataChanged();
     }
 
     private void notifyDataChanged() {
         BudgetUtils.Init(this);
         MonthlyBudgetTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getMonthlyBudget()) + "/-");
         BudgetLeftTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getBudgetLeftForMonth()) + "/-");
+        YoucanSpendTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getBudgetLeftForToday()) + "/-");
+
     }
 
     public void  showToast(String message) {
