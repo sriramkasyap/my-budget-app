@@ -1,18 +1,17 @@
 package org.sriramkasyap.mybudgetapp;
 
 import android.content.SharedPreferences;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiManager;
-import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiResponse;
+import org.sriramkasyap.mybudgetapp.NetworkUtils.TransactionItem;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Sriram Kasyap on 12-10-2017.
@@ -25,6 +24,7 @@ public class BudgetUtils {
     private static float PlannedExpenditure = Float.valueOf(0);
     private static float BudgetLeftForMonth = Float.valueOf(0);
     private static float BudgetForToday = Float.valueOf(0);
+    private static float BudgetLeftForToday = Float.valueOf(0);
     private static float TodayExpenditure = Float.valueOf(0);
     private static int NoDaysInMonth = 0;
     private static int NoDaysLeft = 0;
@@ -36,8 +36,26 @@ public class BudgetUtils {
         setMonthlyBudget(Float.parseFloat(sharedPreferences.getString("monthly_budget", "0")));
         setPlannedExpenditure(Float.parseFloat(sharedPreferences.getString("planned_expenditure", "0")));
         setTotalExpenditure(Float.parseFloat(sharedPreferences.getString("previous_expenditure", "0")));
-        setBudgetLeftForMonth(MonthlyBudget - TotalExpenditure);
+        setBudgetLeftForMonth(MonthlyBudget - TotalExpenditure - PlannedExpenditure);
 
+        Calendar calendar = Calendar.getInstance();
+        int NoOfDays = calendar.getMaximum(Calendar.DAY_OF_MONTH);
+        int NoOfToDay = calendar.get(Calendar.DAY_OF_MONTH);
+        setNoDaysInMonth(NoOfDays);
+        setNoOfDay(NoOfToDay);
+        setNoDaysLeft(NoOfDays - NoOfToDay + 1);
+        setBudgetForToday(getBudgetLeftForMonth()/getNoDaysLeft());
+        setBudgetLeftForToday(getBudgetForToday() -  getTodayExpenditure());
+
+    }
+
+
+    public static float getBudgetLeftForToday() {
+        return BudgetLeftForToday;
+    }
+
+    public static void setBudgetLeftForToday(float budgetLeftForToday) {
+        BudgetLeftForToday = budgetLeftForToday;
     }
 
     public static float getMonthlyBudget() {
@@ -88,8 +106,37 @@ public class BudgetUtils {
         return TodayExpenditure;
     }
 
-    public static void setTodayExpenditure(float todayExpenditure) {
-        TodayExpenditure = todayExpenditure;
+    public static void setTodayExpenditure(ArrayList<TransactionItem> transactionList) {
+        int pos = 0;
+        float sum = 0;
+        Calendar calendar = Calendar.getInstance();
+        Calendar transacionCal = Calendar.getInstance();
+
+//        int today = calendar.get(Calendar.DATE);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date today = new Date();
+        calendar.setTime(today);
+        Log.d("today", String.valueOf(today));
+
+        while(pos < transactionList.size()) {
+            TransactionItem currentItem = transactionList.get(pos);
+            try {
+                Date transactionDate = format.parse(currentItem.getTransactionTimeCreated());
+                transacionCal.setTime(transactionDate);
+                Log.d("transactionDate", String.valueOf(transactionDate));
+                if(calendar.get(Calendar.YEAR) == transacionCal.get(Calendar.YEAR) && calendar.get(Calendar.DAY_OF_YEAR) == transacionCal.get(Calendar.DAY_OF_YEAR)) {
+                    sum += currentItem.getTransactionValue();
+                }
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Log.d(currentItem.getTransactionTitle(), String.valueOf(currentItem.getTransactionValue()));
+            Log.d("Sum", String.valueOf(sum));
+            pos++;
+        }
+        TodayExpenditure = sum;
     }
 
     public static float getNoDaysInMonth() {
@@ -114,5 +161,11 @@ public class BudgetUtils {
 
     public static void setNoOfDay(int noOfDay) {
         NoOfDay = noOfDay;
+    }
+
+    public static void setExpenditures(ArrayList<TransactionItem> expenditures) {
+//        BudgetUtils.expenditures = expenditures;
+        setTodayExpenditure(expenditures);
+        setAddedExpenditure(expenditures);
     }
 }

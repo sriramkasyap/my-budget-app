@@ -16,6 +16,7 @@ import android.widget.Toast;
 import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiManager;
 import org.sriramkasyap.mybudgetapp.NetworkUtils.ApiResponse;
 import org.sriramkasyap.mybudgetapp.NetworkUtils.TransactionItem;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,12 +27,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     public RecyclerView RecentTransactionLayout;
     public RecentTransactionListAdapter rtlAdaptor;
     public TextView ErrorMessageTextView;
     public TextView MonthlyBudgetTextView;
     public TextView BudgetLeftTextView;
+    public TextView YoucanSpendTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         ErrorMessageTextView = (TextView) findViewById(R.id.tv_error_display);
         MonthlyBudgetTextView = (TextView) findViewById(R.id.tv_monthly_budget);
         BudgetLeftTextView = (TextView) findViewById(R.id.tv_budget_left);
+        YoucanSpendTextView = (TextView) findViewById(R.id.tv_current_balance);
         /* Renders Details */
         RenderDetails();
 
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     public void onResponse(Call<ArrayList<TransactionItem>> call, Response<ArrayList<TransactionItem>> response) {
                         if(response.isSuccessful()) {
                             ArrayList<TransactionItem> TransactionList = response.body();
+                            BudgetUtils.setExpenditures(TransactionList);
                             notifyDataChanged(TransactionList);
                             showToast("Transactions Loaded Successfully");
                         } else {
