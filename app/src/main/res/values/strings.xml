@@ -90,4 +90,5 @@
     <string name="transaction_name">Transaction Name</string>
     <string name="transaction_desc">Transaction Description</string>
     <string name="transaction_value">Transaction Value (\u20B9)</string>
+    <string name="update_transaction">Update Transaction</string>
 </resources>

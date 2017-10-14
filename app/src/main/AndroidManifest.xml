@@ -24,8 +24,10 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".NewTransactionActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".NewTransactionActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".EditTransactionActivity" android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -51,7 +51,6 @@ public class BudgetUtils {
 
     }
 
-
     public static float getBudgetLeftForToday() {
         return BudgetLeftForToday;
     }
