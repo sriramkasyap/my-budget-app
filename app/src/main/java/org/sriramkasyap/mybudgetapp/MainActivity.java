@@ -20,7 +20,9 @@ import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     public TextView MonthlyBudgetTextView;
     public TextView BudgetLeftTextView;
     public TextView YoucanSpendTextView;
-
+    public TextView CurrentDayTextView;
+    public TextView CurrentDateTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +54,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         MonthlyBudgetTextView = (TextView) findViewById(R.id.tv_monthly_budget);
         BudgetLeftTextView = (TextView) findViewById(R.id.tv_budget_left);
         YoucanSpendTextView = (TextView) findViewById(R.id.tv_current_balance);
+        CurrentDayTextView = (TextView) findViewById(R.id.tv_current_day);
+        CurrentDateTextView = (TextView) findViewById(R.id.tv_current_date);
+
         /* Renders Details */
         RenderDetails();
-
 
     }
 
@@ -102,14 +107,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void RenderDetails() {
         BudgetUtils.Init(this);
-
+        String todate = new SimpleDateFormat("EEEE, d MMMM").format(new Date());
+        String today = new SimpleDateFormat("d").format(new Date());
+        CurrentDayTextView.setText("Day " + String.valueOf(today));
+        CurrentDateTextView.setText(todate);
         final ProgressDialog mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.show();
         ApiManager.getApiInterface().getAllTransactions()
                 .enqueue(new Callback<ArrayList<TransactionItem>>() {
-
 
                     @Override
                     public void onResponse(Call<ArrayList<TransactionItem>> call, Response<ArrayList<TransactionItem>> response) {
@@ -144,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         MonthlyBudgetTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getMonthlyBudget()) + "/-");
         BudgetLeftTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getBudgetLeftForMonth()) + "/-");
         YoucanSpendTextView.setText("\u20B9 " + String.valueOf((int) BudgetUtils.getBudgetLeftForToday()) + "/-");
-
     }
 
     public void  showToast(String message) {

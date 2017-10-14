@@ -45,7 +45,9 @@ public class BudgetUtils {
         setNoOfDay(NoOfToDay);
         setNoDaysLeft(NoOfDays - NoOfToDay + 1);
         setBudgetForToday(getBudgetLeftForMonth()/getNoDaysLeft());
+        Log.d("BudgetForToday", String.valueOf(getBudgetForToday()));
         setBudgetLeftForToday(getBudgetForToday() -  getTodayExpenditure());
+        Log.d("BudgetLeftForToday", String.valueOf(getBudgetLeftForToday()));
 
     }
 
@@ -122,14 +124,12 @@ public class BudgetUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date today = new Date();
         calendar.setTime(today);
-        Log.d("today", String.valueOf(today));
 
         while(pos < transactionList.size()) {
             TransactionItem currentItem = transactionList.get(pos);
             try {
                 Date transactionDate = format.parse(currentItem.getTransactionTimeCreated());
                 transacionCal.setTime(transactionDate);
-                Log.d("transactionDate", String.valueOf(transactionDate));
                 if(calendar.get(Calendar.YEAR) == transacionCal.get(Calendar.YEAR) && calendar.get(Calendar.DAY_OF_YEAR) == transacionCal.get(Calendar.DAY_OF_YEAR)) {
                     sum += currentItem.getTransactionValue();
                 }
@@ -138,8 +138,6 @@ public class BudgetUtils {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Log.d(currentItem.getTransactionTitle(), String.valueOf(currentItem.getTransactionValue()));
-            Log.d("Sum", String.valueOf(sum));
             pos++;
         }
         TodayExpenditure = sum;

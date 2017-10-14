@@ -78,8 +78,6 @@ public class NewTransactionActivity extends AppCompatActivity implements View.On
     }
 
     private void goToMainActivity() {
-//        Intent backintent = new Intent(this, MainActivity.class);
-//        startActivity(backintent);
         this.finish();
     }
 
@@ -88,9 +86,6 @@ public class NewTransactionActivity extends AppCompatActivity implements View.On
         String TransactionName = TransactionNameEditText.getText().toString();
         Float TransactionValue = Float.parseFloat(TransactionValueEditText.getText().toString());
         String TransactionDesc = TransactionDescEditText.getText().toString();
-        Log.d("TransactionName", TransactionName );
-        Log.d("TransactionValue", String.valueOf(TransactionValue ));
-        Log.d("TransactionDesc", TransactionDesc );
         TransactionItem eneteredItem = new TransactionItem(TransactionName, TransactionDesc, TransactionValue);
         submitTransaction(eneteredItem);
 
