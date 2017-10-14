@@ -77,7 +77,7 @@ public class RecentTransactionListAdapter extends RecyclerView.Adapter<RecentTra
         public void bind(int transactionIndex) {
             TransactionTitleTextView.setText(TransactionData.get(transactionIndex).getTransactionTitle());
             TransactionTimeTextView.setText(TransactionData.get(transactionIndex).getTransactionTimeCreated());
-            TransactionValueTextView.setText("\u20B9 " + TransactionData.get(transactionIndex).getTransactionValue() + "/-");
+            TransactionValueTextView.setText("\u20B9 " + String.valueOf((int) TransactionData.get(transactionIndex).getTransactionValue()) + "/-");
         }
 
 

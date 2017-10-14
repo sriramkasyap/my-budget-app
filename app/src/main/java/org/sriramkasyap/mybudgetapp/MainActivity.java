@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                         if(response.isSuccessful()) {
                             ArrayList<TransactionItem> TransactionList = response.body();
                             notifyDataChanged(TransactionList);
-                        } else {
                             showToast("Transactions Loaded Successfully");
+                        } else {
                         }
                         if (mProgressDialog.isShowing())
                             mProgressDialog.dismiss();
@@ -133,15 +133,23 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                     @Override
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                         if(response.isSuccessful() && response.body().getStatus()) {
-                            BudgetUtils.setAddedExpenditure(Float.parseFloat(response.body().getMessage()));
-                            notifyDataChanged();
+                            String responseMessage  = response.body().getMessage();
+                            if(responseMessage != null) {
+                                BudgetUtils.setAddedExpenditure(Float.parseFloat(responseMessage));
+                                notifyDataChanged();
+                            }
+                            else {
+                                BudgetUtils.setAddedExpenditure(0);
+                                notifyDataChanged();
+                                showToast("No New transactions Found");
+                            }
 
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse> call, Throwable t) {
-
+                        showToast("No New transactions Found");
                     }
                 });
 

@@ -22,5 +22,5 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("add-transaction")
-    Call<ApiResponse> addTransaction(@Field("transaction_title") String TransactionTitle, @Field("transaction_desc") String TransactionDesc, @Field("transaction_value") Double TransactionValue, @Field("transaction_time") String TransactionTime);
+    Call<ApiResponse> addTransaction(@Field("transaction_title") String TransactionTitle, @Field("transaction_desc") String TransactionDesc, @Field("transaction_value") float TransactionValue, @Field("transaction_time") String TransactionTime);
 }

@@ -10,11 +10,14 @@ import org.json.JSONObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TransactionItem {
 
     @SerializedName("transaction_id")
     @Expose
-    private String transactionId;
+    private int transactionId;
     @SerializedName("transaction_title")
     @Expose
     private String transactionTitle;
@@ -29,13 +32,13 @@ public class TransactionItem {
     private String transactionTimeModified;
     @SerializedName("transaction_value")
     @Expose
-    private String transactionValue;
+    private Float transactionValue;
 
-    public String getTransactionId() {
+    public int getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(String transactionId) {
+    public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -72,14 +75,21 @@ public class TransactionItem {
         this.transactionTimeModified = transactionTimeModified;
     }
 
-    public String getTransactionValue() {
+    public float getTransactionValue() {
         return transactionValue;
     }
 
-    public void setTransactionValue(String transactionValue) {
+    public void setTransactionValue(float transactionValue) {
         this.transactionValue = transactionValue;
     }
 
+    public TransactionItem(String transactionTitle, String transactionDesc, Float transactionValue) {
+        this.transactionTitle = transactionTitle;
+        this.transactionDesc = transactionDesc;
+        this.transactionValue = transactionValue;
+        this.transactionId = 0;
+        this.transactionTimeCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
+    }
 }
 
